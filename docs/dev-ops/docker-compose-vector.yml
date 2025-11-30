@@ -1,0 +1,27 @@
+version: '3'
+services:
+  vector_db:
+    # 依然使用小傅哥提供的镜像，因为这里面已经预装好了 pgvector 插件，开箱即用
+    image: pgvector/pgvector:pg16
+    container_name: vector_db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=springai  # 数据库名叫 springai
+    volumes:
+      # ⚠️ 关键点：请确认你本地这个 init.sql 文件的路径是对的
+      # 如果你的 sql 文件在 docs/dev-ops/environment/... 记得修改下面冒号左边的路径
+      - ./pgvector/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      # 🚀 重点修改在这里！！！
+      # 左边是宿主机(Mac)端口，右边是容器端口
+      # 改成 5433，这样就不会跟你本地课程用的 Postgres(5432) 打架了
+      - '5433:5432'
+    healthcheck:
+      # 原配置里这里写的是 vector_store，但环境变量是 springai，会导致一直 unhealthy
+      # 我帮你改成 springai 了
+      test: "pg_isready -U postgres -d springai"
+      interval: 2s
+      timeout: 20s
+      retries: 10
