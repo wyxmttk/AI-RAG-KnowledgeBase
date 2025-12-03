@@ -40,4 +40,4 @@ build/
 
 wyxm-app/src/main/resources/application-dev.yml
 
-**/data
+data/**
