@@ -39,3 +39,5 @@ build/
 .DS_Store
 
 wyxm-app/src/main/resources/application-dev.yml
+
+**/data
