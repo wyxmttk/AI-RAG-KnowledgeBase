@@ -1,0 +1,97 @@
+25-12-04.22:10:01.483 [main            ] WARN  DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/Users/mac/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/Users/mac/.m2/repository/org/json/json/20231013/json-20231013.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+25-12-04.22:10:01.492 [main            ] INFO  RAGTest                - Starting RAGTest using Java 17.0.12 with PID 67266 (started by mac in /Applications/IDEAWorkspace/AI-RAG-KnowledgeBase/wyxm-app)
+25-12-04.22:10:01.492 [main            ] INFO  RAGTest                - The following 1 profile is active: "dev"
+25-12-04.22:10:01.836 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-12-04.22:10:01.838 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-12-04.22:10:01.853 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+25-12-04.22:10:02.446 [main            ] INFO  HikariDataSource       - HikariCP - Starting...
+25-12-04.22:10:02.542 [main            ] INFO  HikariPool             - HikariCP - Added connection org.postgresql.jdbc.PgConnection@6864c023
+25-12-04.22:10:02.543 [main            ] INFO  HikariDataSource       - HikariCP - Start completed.
+25-12-04.22:10:03.940 [main            ] INFO  Version                - Redisson 3.44.0
+25-12-04.22:10:03.958 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-12-04.22:10:04.044 [redisson-netty-1-5] INFO  ConnectionsHolder      - 1 connections initialized for localhost/127.0.0.1:6379
+25-12-04.22:10:04.053 [redisson-netty-1-14] INFO  ConnectionsHolder      - 5 connections initialized for localhost/127.0.0.1:6379
+25-12-04.22:10:04.383 [main            ] INFO  RAGTest                - Started RAGTest in 3.125 seconds (process running for 3.547)
+25-12-04.22:10:05.135 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown initiated...
+25-12-04.22:10:05.136 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown completed.
+25-12-04.22:10:31.100 [main            ] WARN  DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/Users/mac/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/Users/mac/.m2/repository/org/json/json/20231013/json-20231013.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+25-12-04.22:10:31.108 [main            ] INFO  RAGTest                - Starting RAGTest using Java 17.0.12 with PID 67295 (started by mac in /Applications/IDEAWorkspace/AI-RAG-KnowledgeBase/wyxm-app)
+25-12-04.22:10:31.108 [main            ] INFO  RAGTest                - The following 1 profile is active: "dev"
+25-12-04.22:10:31.440 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-12-04.22:10:31.441 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-12-04.22:10:31.461 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+25-12-04.22:10:31.971 [main            ] INFO  HikariDataSource       - HikariCP - Starting...
+25-12-04.22:10:32.079 [main            ] INFO  HikariPool             - HikariCP - Added connection org.postgresql.jdbc.PgConnection@6bae5935
+25-12-04.22:10:32.079 [main            ] INFO  HikariDataSource       - HikariCP - Start completed.
+25-12-04.22:10:32.414 [main            ] INFO  Version                - Redisson 3.44.0
+25-12-04.22:10:32.431 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-12-04.22:10:32.512 [redisson-netty-1-5] INFO  ConnectionsHolder      - 1 connections initialized for localhost/127.0.0.1:6379
+25-12-04.22:10:32.522 [redisson-netty-1-14] INFO  ConnectionsHolder      - 5 connections initialized for localhost/127.0.0.1:6379
+25-12-04.22:10:32.844 [main            ] INFO  RAGTest                - Started RAGTest in 1.965 seconds (process running for 2.37)
+25-12-04.22:10:33.666 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown initiated...
+25-12-04.22:10:33.668 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown completed.
+25-12-04.22:11:53.953 [main            ] WARN  DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/Users/mac/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/Users/mac/.m2/repository/org/json/json/20231013/json-20231013.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+25-12-04.22:11:53.961 [main            ] INFO  RAGTest                - Starting RAGTest using Java 17.0.12 with PID 67322 (started by mac in /Applications/IDEAWorkspace/AI-RAG-KnowledgeBase/wyxm-app)
+25-12-04.22:11:53.961 [main            ] INFO  RAGTest                - The following 1 profile is active: "dev"
+25-12-04.22:11:54.305 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-12-04.22:11:54.307 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-12-04.22:11:54.328 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+25-12-04.22:11:54.857 [main            ] INFO  HikariDataSource       - HikariCP - Starting...
+25-12-04.22:11:54.978 [main            ] INFO  HikariPool             - HikariCP - Added connection org.postgresql.jdbc.PgConnection@34a39a54
+25-12-04.22:11:54.978 [main            ] INFO  HikariDataSource       - HikariCP - Start completed.
+25-12-04.22:11:55.342 [main            ] INFO  Version                - Redisson 3.44.0
+25-12-04.22:11:55.359 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-12-04.22:11:55.437 [redisson-netty-1-5] INFO  ConnectionsHolder      - 1 connections initialized for localhost/127.0.0.1:6379
+25-12-04.22:11:55.447 [redisson-netty-1-14] INFO  ConnectionsHolder      - 5 connections initialized for localhost/127.0.0.1:6379
+25-12-04.22:11:55.773 [main            ] INFO  RAGTest                - Started RAGTest in 2.044 seconds (process running for 2.466)
+25-12-04.22:11:56.191 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown initiated...
+25-12-04.22:11:56.192 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown completed.
+25-12-04.22:13:07.095 [main            ] WARN  DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/Users/mac/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/Users/mac/.m2/repository/org/json/json/20231013/json-20231013.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+25-12-04.22:13:07.103 [main            ] INFO  RAGTest                - Starting RAGTest using Java 17.0.12 with PID 67354 (started by mac in /Applications/IDEAWorkspace/AI-RAG-KnowledgeBase/wyxm-app)
+25-12-04.22:13:07.104 [main            ] INFO  RAGTest                - The following 1 profile is active: "dev"
+25-12-04.22:13:07.436 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-12-04.22:13:07.442 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-12-04.22:13:07.457 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+25-12-04.22:13:07.966 [main            ] INFO  HikariDataSource       - HikariCP - Starting...
+25-12-04.22:13:08.089 [main            ] INFO  HikariPool             - HikariCP - Added connection org.postgresql.jdbc.PgConnection@57aa34bc
+25-12-04.22:13:08.090 [main            ] INFO  HikariDataSource       - HikariCP - Start completed.
+25-12-04.22:13:08.436 [main            ] INFO  Version                - Redisson 3.44.0
+25-12-04.22:13:08.452 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-12-04.22:13:08.533 [redisson-netty-1-5] INFO  ConnectionsHolder      - 1 connections initialized for localhost/127.0.0.1:6379
+25-12-04.22:13:08.541 [redisson-netty-1-14] INFO  ConnectionsHolder      - 5 connections initialized for localhost/127.0.0.1:6379
+25-12-04.22:13:08.861 [main            ] INFO  RAGTest                - Started RAGTest in 1.994 seconds (process running for 2.414)
+25-12-04.22:13:13.640 [redisson-netty-1-16] WARN  DNSMonitor             - Use Redisson PRO version (https://redisson.pro) with Proxy mode feature to utilize all ip addresses: [redis://127.0.0.1:6379, redis://0:0:0:0:0:0:0:1:6379] resolved by: redis://localhost:6379
+25-12-04.22:13:18.895 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown initiated...
+25-12-04.22:13:18.896 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown completed.
