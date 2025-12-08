@@ -1,14 +1,13 @@
 package wyxm;
 
 import jakarta.annotation.Resource;
-import org.springframework.ai.chat.ChatResponse;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.UserMessage;
-import org.springframework.ai.chat.prompt.ChatOptions;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.document.Document;
-import org.springframework.ai.ollama.OllamaChatClient;
+import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.ai.vectorstore.PgVectorStore;
 import org.springframework.ai.vectorstore.SearchRequest;
@@ -37,7 +36,7 @@ public class OllamaController implements AIService {
         """;
 
     @Resource
-    private OllamaChatClient chatClient;
+    private OllamaChatModel chatClient;
 
     @Resource
     private PgVectorStore pgVectorStore;

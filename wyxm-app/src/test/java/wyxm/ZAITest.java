@@ -1,9 +1,10 @@
 package wyxm;
 
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.redisson.api.RList;
+import org.redisson.api.RedissonClient;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -11,57 +12,53 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
-import org.springframework.ai.ollama.OllamaChatModel;
-import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.ai.reader.tika.TikaDocumentReader;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.PgVectorStore;
 import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.zhipuai.ZhiPuAiChatModel;
+import org.springframework.ai.zhipuai.ZhiPuAiChatOptions;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.nio.file.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-//测试时启动Spring上下文
-@RunWith(SpringRunner.class)
 @SpringBootTest
-@Slf4j
-public class RAGTest {
+@RunWith(SpringRunner.class)
+public class ZAITest {
 
     @Resource
-    private OllamaChatModel ollamaChatClient;
-    @Resource
-    private TokenTextSplitter tokenTextSplitter;
+    private EmbeddingModel embeddingClient;
     @Resource
     private PgVectorStore vectorStore;
     @Resource
     private ResourceLoader resourceLoader;
     @Resource
-    private EmbeddingModel embeddingClient;
+    private TokenTextSplitter tokenTextSplitter;
+    @Resource
+    private RedissonClient redissonClient;
+    @Resource
+    private ZhiPuAiChatModel zhiPuAiChatModel;
 
     @Test
-    public void upload(){
+    public void testApi(){
+        RList<Object> ragTag = redissonClient.getList("ragTag");
+        ragTag.clear();
+        ragTag.add("测试知识库");
         org.springframework.core.io.Resource resource = resourceLoader.getResource("classpath:data/file.txt");
-        TikaDocumentReader tikaDocumentReader = new TikaDocumentReader(resource);
-        List<Document> documents = tikaDocumentReader.get();
-        documents.forEach(document -> {document.getMetadata().put("knowledge","测试知识库3");});
-        List<Document> splitDocuments = tokenTextSplitter.apply(documents);
-        vectorStore.add(splitDocuments);
+        TikaDocumentReader reader = new TikaDocumentReader(resource);
+        List<Document> documents = reader.get();
+        documents.forEach(document -> {document.getMetadata().put("knowledge","测试知识库");});
+        List<Document> split = tokenTextSplitter.split(documents);
+        vectorStore.add(split);
     }
     @Test
-    public void testEmbed(){
-        float[] hello = embeddingClient.embed("你好");
-        System.out.println(Arrays.toString(hello));
-    }
-    @Test
-    public void chat(){
-        String message="罗景康的缩写是？";
+    public void testChat(){
+        String message="ljk指的是谁?";
         String filterExpression="knowledge == '测试知识库'";
 
         String SYSTEM_PROMPT= """
@@ -74,15 +71,14 @@ public class RAGTest {
         [上下文结束]
         """;
         SearchRequest request=SearchRequest.query(message).withTopK(5).withFilterExpression(filterExpression);
-        List<Document> documents = vectorStore.similaritySearch(request);
-        String documentsContent = documents.stream().map(Document::getContent).collect(Collectors.joining());
-        Message systemMessage = new SystemPromptTemplate(SYSTEM_PROMPT).createMessage(Map.of("documents", documentsContent));
-        UserMessage userMessage = new UserMessage(message);
+        List<Document> list = vectorStore.similaritySearch(request);
+        String collect = list.stream().map(Document::getContent).collect(Collectors.joining());
+        Message systemPrompt = new SystemPromptTemplate(SYSTEM_PROMPT).createMessage(Map.of("documents", collect));
+        UserMessage userPrompt = new UserMessage(message);
         ArrayList<Message> messages = new ArrayList<>();
-        messages.add(systemMessage);
-        messages.add(userMessage);
-        ChatResponse response = ollamaChatClient.call(new Prompt(messages, OllamaOptions.create().withModel("qwen2.5:7b")));
+        messages.add(systemPrompt);
+        messages.add(userPrompt);
+        ChatResponse response = zhiPuAiChatModel.call(new Prompt(messages, ZhiPuAiChatOptions.builder().withModel("glm-4.6v").build()));
         System.out.println(response);
-
     }
 }

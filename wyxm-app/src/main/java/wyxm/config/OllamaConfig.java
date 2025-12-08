@@ -1,16 +1,12 @@
 package wyxm.config;
 
-import org.springframework.ai.ollama.OllamaEmbeddingClient;
-import org.springframework.ai.ollama.api.OllamaApi;
-import org.springframework.ai.ollama.api.OllamaOptions;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
-import org.springframework.ai.vectorstore.PgVectorStore;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
+@Slf4j
 public class OllamaConfig {
 
     @Bean
@@ -18,12 +14,12 @@ public class OllamaConfig {
         return new TokenTextSplitter();
     }
 
-    @Bean
-    public PgVectorStore pgVectorStore(@Value("${spring.ai.rag.embed}") String model, OllamaApi ollamaApi, JdbcTemplate jdbcTemplate) {
-            OllamaEmbeddingClient embeddingClient = new OllamaEmbeddingClient(ollamaApi);
-            embeddingClient.withDefaultOptions(OllamaOptions.create().withModel(model));
-            return new PgVectorStore(jdbcTemplate, embeddingClient);
-    }
+//    @Bean
+//    public PgVectorStore pgVectorStore(@Value("${spring.ai.rag.embed}") String model, OllamaApi ollamaApi, JdbcTemplate jdbcTemplate) {
+//            OllamaEmbeddingClient embeddingClient = new OllamaEmbeddingClient(ollamaApi);
+//            embeddingClient.withDefaultOptions(OllamaOptions.create().withModel(model).withNumCtx(512).withNumBatch(512));
+//            return new PgVectorStore(jdbcTemplate, embeddingClient);
+//    }
 
 
 }

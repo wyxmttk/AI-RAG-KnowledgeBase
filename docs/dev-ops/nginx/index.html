@@ -40,13 +40,16 @@
         /* 下拉与输入 */
         #rag-tag-select { padding: 6px; border: 1px solid #ccc; border-radius: 4px; min-width: 140px; height: 32px; background: white; }
         #rag-tag-input { padding: 6px; border: 1px solid #ccc; border-radius: 4px; width: 140px; height: 18px; display: none; }
-        .icon-btn { background: #f0f0f0; border: 1px solid #ddd; cursor: pointer; width: 32px; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .icon-btn { background: #f0f0f0; border: 1px solid #ddd; cursor: pointer; width: 32px; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; }
         .icon-btn:hover { background-color: #e0e0e0; }
 
-        /* --- 修改开始：文件上传与拖拽样式 --- */
+        /* 新增：模式切换选中状态 */
+        .icon-btn.active-mode { background-color: #007bff; color: white; border-color: #0056b3; }
+
+        /* --- 文件上传与拖拽样式 --- */
         #file-input { display: none; }
 
-        /* 新增：拖拽区域的基础样式 */
+        /* 拖拽区域的基础样式 */
         #drop-zone {
             display: flex;
             align-items: center;
@@ -58,17 +61,32 @@
             margin-left: 15px;
         }
 
-        /* 新增：当文件拖入时的样式 */
+        /* 当文件拖入时的样式 */
         #drop-zone.drag-over {
             border-color: #007bff;
             background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        /* 新增：Git 导入区域样式 */
+        #git-zone {
+            display: none; /* 默认隐藏 */
+            align-items: center;
+            gap: 8px;
+            margin-left: 15px;
+        }
+        #git-url-input {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 280px;
+            height: 18px; /* 这里的 height 是 content-box，加上 padding 和 border 后高度接近 32px */
+            font-size: 13px;
         }
 
         .btn-upload-trigger { background-color: #6c757d; color: white; padding: 0 12px; height: 32px; line-height: 32px; border-radius: 4px; cursor: pointer; font-size: 13px; display: inline-block; }
         .btn-do-upload { background-color: #28a745; color: white; border: none; padding: 0 15px; height: 32px; border-radius: 4px; cursor: pointer; font-size: 13px; }
         .btn-do-upload:disabled { background-color: #ccc; cursor: not-allowed; }
         #file-list-display { font-size: 12px; color: #666; margin-left: 5px; }
-        /* --- 修改结束 --- */
 
         /* 聊天区域 */
         #chat-container { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: var(--input-area-height); display: flex; flex-direction: column; gap: 15px; max-width: 900px; margin: 0 auto; width: 100%; box-sizing: border-box; }
@@ -116,11 +134,21 @@
             <button id="refresh-tag-btn" class="icon-btn" title="刷新列表">🔄</button>
         </div>
 
+        <div style="margin-left: 15px; display: flex; gap: 5px;">
+            <button id="mode-file-btn" class="icon-btn active-mode" title="文件上传模式">📂</button>
+            <button id="mode-git-btn" class="icon-btn" title="Git 仓库导入模式">🔗</button>
+        </div>
+
         <div id="drop-zone" title="可以将文件拖拽到这里">
             <label for="file-input" class="btn-upload-trigger">📂 选择/拖拽文件</label>
             <input type="file" id="file-input" multiple>
             <span id="file-list-display"></span>
             <button id="upload-btn" class="btn-do-upload">上传</button>
+        </div>
+
+        <div id="git-zone">
+            <input type="text" id="git-url-input" placeholder="输入 Git 仓库 HTTPS 地址" autocomplete="off">
+            <button id="git-import-btn" class="btn-do-upload">导入仓库</button>
         </div>
     </div>
 </div>
@@ -159,13 +187,18 @@
     const fileInput = document.getElementById('file-input');
     const uploadBtn = document.getElementById('upload-btn');
     const fileListDisplay = document.getElementById('file-list-display');
-
-    // 新增：获取 drop-zone 元素
     const dropZone = document.getElementById('drop-zone');
+
+    // === 新增 DOM ===
+    const modeFileBtn = document.getElementById('mode-file-btn');
+    const modeGitBtn = document.getElementById('mode-git-btn');
+    const gitZone = document.getElementById('git-zone');
+    const gitUrlInput = document.getElementById('git-url-input');
+    const gitImportBtn = document.getElementById('git-import-btn');
 
     let isNewTagMode = false;
 
-    // === 1. 模式切换逻辑 ===
+    // === 1. 模式切换逻辑 (Rag开关) ===
     ragModeSwitch.addEventListener('change', () => {
         const isRagOn = ragModeSwitch.checked;
         if (isRagOn) {
@@ -181,7 +214,26 @@
         }
     });
 
-    // === 2. 知识库标签管理 ===
+    // === 2. 上传模式切换 (File vs Git) ===
+    modeFileBtn.addEventListener('click', () => switchUploadMode('file'));
+    modeGitBtn.addEventListener('click', () => switchUploadMode('git'));
+
+    function switchUploadMode(mode) {
+        if (mode === 'file') {
+            dropZone.style.display = 'flex';
+            gitZone.style.display = 'none';
+            modeFileBtn.classList.add('active-mode');
+            modeGitBtn.classList.remove('active-mode');
+        } else {
+            dropZone.style.display = 'none';
+            gitZone.style.display = 'flex';
+            modeFileBtn.classList.remove('active-mode');
+            modeGitBtn.classList.add('active-mode');
+            gitUrlInput.focus();
+        }
+    }
+
+    // === 3. 知识库标签管理 ===
     window.onload = loadRagTags;
     refreshTagBtn.addEventListener('click', loadRagTags);
 
@@ -225,9 +277,7 @@
         return isNewTagMode ? ragTagInput.value.trim() : ragTagSelect.value;
     }
 
-    // === 3. 上传与拖拽逻辑 (修改部分) ===
-
-    // 监听原生文件选择变化
+    // === 4. 文件上传与拖拽逻辑 ===
     fileInput.addEventListener('change', updateFileListDisplay);
 
     function updateFileListDisplay() {
@@ -235,8 +285,6 @@
         else fileListDisplay.textContent = '';
     }
 
-    // --- 新增：拖拽事件处理 ---
-    // 阻止浏览器默认行为（默认行为是打开文件）
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
         dropZone.addEventListener(eventName, preventDefaults, false);
     });
@@ -246,31 +294,24 @@
         e.stopPropagation();
     }
 
-    // 拖拽进入/悬停时添加高亮样式
     ['dragenter', 'dragover'].forEach(eventName => {
         dropZone.addEventListener(eventName, () => dropZone.classList.add('drag-over'), false);
     });
 
-    // 拖拽离开/放置后移除高亮样式
     ['dragleave', 'drop'].forEach(eventName => {
         dropZone.addEventListener(eventName, () => dropZone.classList.remove('drag-over'), false);
     });
 
-    // 处理文件放置
     dropZone.addEventListener('drop', handleDrop, false);
 
     function handleDrop(e) {
         const dt = e.dataTransfer;
         const files = dt.files;
-
         if (files.length > 0) {
-            // 将拖拽的文件赋值给 input[type=file]
             fileInput.files = files;
-            // 手动触发 update 函数
             updateFileListDisplay();
         }
     }
-    // --- 拖拽逻辑结束 ---
 
     uploadBtn.addEventListener('click', async () => {
         const ragTag = getCurrentRagTag();
@@ -289,7 +330,6 @@
             const result = await response.json();
             if (result.code === "0000") {
                 alert("上传成功");
-                // 上传成功后清空文件显示
                 fileInput.value = '';
                 updateFileListDisplay();
                 if (isNewTagMode) {
@@ -302,7 +342,47 @@
         finally { uploadBtn.disabled = false; uploadBtn.textContent = '上传'; }
     });
 
-    // === 4. 核心发送逻辑 ===
+    // === 5. Git 导入逻辑 (新增) ===
+    gitImportBtn.addEventListener('click', async () => {
+        const ragTag = getCurrentRagTag();
+        if (!ragTag || ragTag === "暂无") return alert("请选择或新建一个知识库名称");
+
+        const gitUrl = gitUrlInput.value.trim();
+        if (!gitUrl) return alert("请输入 Git 仓库地址");
+        if (!gitUrl.startsWith("http")) return alert("请输入有效的 HTTP/HTTPS Git 地址");
+
+        gitImportBtn.disabled = true;
+        gitImportBtn.textContent = '克隆解析中...';
+
+        try {
+            // 后端接口是 GET /git?tag=...&url=...
+            const targetUrl = `${RAG_API_BASE}/git?tag=${encodeURIComponent(ragTag)}&url=${encodeURIComponent(gitUrl)}`;
+
+            const response = await fetch(targetUrl, { method: 'GET' });
+            const result = await response.json();
+
+            if (result.code === "0000") {
+                alert(`Git 仓库导入成功！\n知识库: ${ragTag}`);
+                gitUrlInput.value = '';
+
+                if (isNewTagMode) {
+                    await loadRagTags();
+                    ragTagSelect.value = ragTag;
+                    toggleNewTagBtn.click();
+                }
+            } else {
+                alert("导入失败: " + (result.info || "未知错误"));
+            }
+        } catch (e) {
+            console.error(e);
+            alert("请求发送失败，请检查网络或后端服务");
+        } finally {
+            gitImportBtn.disabled = false;
+            gitImportBtn.textContent = '导入仓库';
+        }
+    });
+
+    // === 6. 核心对话逻辑 ===
     sendBtn.addEventListener('click', sendMessage);
     userInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
