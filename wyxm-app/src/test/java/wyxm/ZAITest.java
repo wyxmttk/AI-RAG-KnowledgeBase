@@ -17,7 +17,6 @@ import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.PgVectorStore;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.zhipuai.ZhiPuAiChatModel;
-import org.springframework.ai.zhipuai.ZhiPuAiChatOptions;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -31,10 +30,10 @@ import java.util.stream.Collectors;
 @RunWith(SpringRunner.class)
 public class ZAITest {
 
-    @Resource
+    @Resource(name="zhiPuAiEmbeddingModel")
     private EmbeddingModel embeddingClient;
-    @Resource
-    private PgVectorStore vectorStore;
+    @Resource(name="zaiPgVectorStore")
+    private PgVectorStore zaiPgVectorStore;
     @Resource
     private ResourceLoader resourceLoader;
     @Resource
@@ -54,7 +53,7 @@ public class ZAITest {
         List<Document> documents = reader.get();
         documents.forEach(document -> {document.getMetadata().put("knowledge","测试知识库");});
         List<Document> split = tokenTextSplitter.split(documents);
-        vectorStore.add(split);
+        zaiPgVectorStore.add(split);
     }
     @Test
     public void testChat(){
@@ -71,14 +70,14 @@ public class ZAITest {
         [上下文结束]
         """;
         SearchRequest request=SearchRequest.query(message).withTopK(5).withFilterExpression(filterExpression);
-        List<Document> list = vectorStore.similaritySearch(request);
+        List<Document> list = zaiPgVectorStore.similaritySearch(request);
         String collect = list.stream().map(Document::getContent).collect(Collectors.joining());
         Message systemPrompt = new SystemPromptTemplate(SYSTEM_PROMPT).createMessage(Map.of("documents", collect));
         UserMessage userPrompt = new UserMessage(message);
         ArrayList<Message> messages = new ArrayList<>();
         messages.add(systemPrompt);
         messages.add(userPrompt);
-        ChatResponse response = zhiPuAiChatModel.call(new Prompt(messages, ZhiPuAiChatOptions.builder().withModel("glm-4.6v").build()));
+        ChatResponse response = zhiPuAiChatModel.call(new Prompt(messages));
         System.out.println(response);
     }
 }

@@ -9,7 +9,7 @@ public interface RAGService {
 
     Response<List<String>> queryRagTagList();
 
-    Response<String> uploadFile(String ragTag, List<MultipartFile> files);
+    Response<String> uploadFile(String ragTag, List<MultipartFile> files,String model);
 
-    Response<String> uploadGitRepository(String ragTag, String url);
+    Response<String> uploadGitRepository(String ragTag, String url, String model);
 }

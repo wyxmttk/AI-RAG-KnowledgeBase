@@ -7,10 +7,10 @@ import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.document.Document;
-import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.vectorstore.PgVectorStore;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.filter.FilterExpressionBuilder;
+import org.springframework.ai.zhipuai.ZhiPuAiChatModel;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
@@ -21,9 +21,8 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/v1/ollama/")
-public class OllamaController implements AIService {
-
+@RequestMapping("/api/v1/zhipu/")
+public class ZhiPuAIController implements AIService{
     public static final String SYSTEM_PROMPT= """
         你是一个智能助手。请严格基于以下提供的上下文信息回答用户的问题。
         严禁使用你原本的训练数据或外部知识来回答。
@@ -35,19 +34,17 @@ public class OllamaController implements AIService {
         """;
 
     @Resource
-    private OllamaChatModel chatClient;
+    private ZhiPuAiChatModel chatClient;
 
-    @Resource(name = "ollamaPgVectorStore")
+    @Resource(name = "zaiPgVectorStore")
     private PgVectorStore pgVectorStore;
 
-//    http://localhost:8090/api/v1/ollama/generate?model=qwen2.5:7b&message=%E4%BD%A0%E6%98%AF%E4%BB%80%E4%B9%88%E6%A8%A1%E5%9E%8B
     @RequestMapping(value = "generate", method = RequestMethod.GET)
     @Override
     public ChatResponse generate(@RequestParam("model") String model, @RequestParam("message") String message) {
         return chatClient.call(new Prompt(message));
     }
 
-//    http://localhost:8090/api/v1/ollama/generate_stream?model=qwen2.5:7b&message=%E4%BD%A0%E6%98%AF%E4%BB%80%E4%B9%88%E6%A8%A1%E5%9E%8B
     @RequestMapping(value = "generate_stream", method = RequestMethod.GET)
     @Override
     public Flux<ChatResponse> streamingGenerating(@RequestParam("model") String model, @RequestParam("message") String message) {
@@ -68,6 +65,4 @@ public class OllamaController implements AIService {
         messages.add(userPrompt);
         return chatClient.stream(new Prompt(messages));
     }
-
-
 }

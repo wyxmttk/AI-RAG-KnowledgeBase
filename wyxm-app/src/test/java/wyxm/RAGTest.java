@@ -12,7 +12,6 @@ import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.ollama.OllamaChatModel;
-import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.ai.reader.tika.TikaDocumentReader;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.PgVectorStore;
@@ -38,11 +37,11 @@ public class RAGTest {
     private OllamaChatModel ollamaChatClient;
     @Resource
     private TokenTextSplitter tokenTextSplitter;
-    @Resource
+    @Resource(name = "ollamaPgVectorStore")
     private PgVectorStore vectorStore;
     @Resource
     private ResourceLoader resourceLoader;
-    @Resource
+    @Resource(name = "ollamaEmbeddingModel")
     private EmbeddingModel embeddingClient;
 
     @Test
@@ -50,7 +49,7 @@ public class RAGTest {
         org.springframework.core.io.Resource resource = resourceLoader.getResource("classpath:data/file.txt");
         TikaDocumentReader tikaDocumentReader = new TikaDocumentReader(resource);
         List<Document> documents = tikaDocumentReader.get();
-        documents.forEach(document -> {document.getMetadata().put("knowledge","测试知识库3");});
+        documents.forEach(document -> {document.getMetadata().put("knowledge","测试知识库");});
         List<Document> splitDocuments = tokenTextSplitter.apply(documents);
         vectorStore.add(splitDocuments);
     }
@@ -68,7 +67,7 @@ public class RAGTest {
         你是一个智能助手。请严格基于以下提供的上下文信息回答用户的问题。
         严禁使用你原本的训练数据或外部知识来回答。
         如果上下文信息中没有包含问题的答案，必须回答：“抱歉，知识库中未找到相关内容。”，不要说其他废话。
-    
+        顺便告诉我你是什么模型
         [上下文开始]
         {documents}
         [上下文结束]
@@ -81,7 +80,7 @@ public class RAGTest {
         ArrayList<Message> messages = new ArrayList<>();
         messages.add(systemMessage);
         messages.add(userMessage);
-        ChatResponse response = ollamaChatClient.call(new Prompt(messages, OllamaOptions.create().withModel("qwen2.5:7b")));
+        ChatResponse response = ollamaChatClient.call(new Prompt(messages));
         System.out.println(response);
 
     }

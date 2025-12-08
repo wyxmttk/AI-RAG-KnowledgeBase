@@ -15,7 +15,7 @@
             padding: 15px 20px;
             border-bottom: 1px solid #ddd;
             display: flex;
-            gap: 20px;
+            gap: 15px;
             align-items: center;
             flex-wrap: wrap;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
@@ -38,50 +38,24 @@
         .setting-label { font-weight: bold; font-size: 14px; color: #555; }
 
         /* 下拉与输入 */
-        #rag-tag-select { padding: 6px; border: 1px solid #ccc; border-radius: 4px; min-width: 140px; height: 32px; background: white; }
-        #rag-tag-input { padding: 6px; border: 1px solid #ccc; border-radius: 4px; width: 140px; height: 18px; display: none; }
+        select, input[type="text"] { padding: 6px; border: 1px solid #ccc; border-radius: 4px; background: white; font-size: 13px; }
+        #rag-tag-select { min-width: 120px; height: 32px; }
+        /* 模型选择样式 */
+        #provider-select { min-width: 100px; height: 32px; font-weight: bold; color: #333; }
+
+        #rag-tag-input { width: 140px; height: 18px; display: none; }
+
         .icon-btn { background: #f0f0f0; border: 1px solid #ddd; cursor: pointer; width: 32px; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; }
         .icon-btn:hover { background-color: #e0e0e0; }
-
-        /* 新增：模式切换选中状态 */
         .icon-btn.active-mode { background-color: #007bff; color: white; border-color: #0056b3; }
 
         /* --- 文件上传与拖拽样式 --- */
         #file-input { display: none; }
+        #drop-zone { display: flex; align-items: center; gap: 8px; padding: 4px 10px; border: 2px dashed transparent; border-radius: 6px; transition: all 0.2s; margin-left: 10px; }
+        #drop-zone.drag-over { border-color: #007bff; background-color: rgba(0, 123, 255, 0.1); }
 
-        /* 拖拽区域的基础样式 */
-        #drop-zone {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 10px;
-            border: 2px dashed transparent; /* 默认边框透明 */
-            border-radius: 6px;
-            transition: all 0.2s;
-            margin-left: 15px;
-        }
-
-        /* 当文件拖入时的样式 */
-        #drop-zone.drag-over {
-            border-color: #007bff;
-            background-color: rgba(0, 123, 255, 0.1);
-        }
-
-        /* 新增：Git 导入区域样式 */
-        #git-zone {
-            display: none; /* 默认隐藏 */
-            align-items: center;
-            gap: 8px;
-            margin-left: 15px;
-        }
-        #git-url-input {
-            padding: 6px 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 280px;
-            height: 18px; /* 这里的 height 是 content-box，加上 padding 和 border 后高度接近 32px */
-            font-size: 13px;
-        }
+        #git-zone { display: none; align-items: center; gap: 8px; margin-left: 10px; }
+        #git-url-input { width: 240px; height: 18px; }
 
         .btn-upload-trigger { background-color: #6c757d; color: white; padding: 0 12px; height: 32px; line-height: 32px; border-radius: 4px; cursor: pointer; font-size: 13px; display: inline-block; }
         .btn-do-upload { background-color: #28a745; color: white; border: none; padding: 0 15px; height: 32px; border-radius: 4px; cursor: pointer; font-size: 13px; }
@@ -114,6 +88,15 @@
 
 <div id="rag-settings">
     <div class="setting-group">
+        <select id="provider-select" title="选择模型服务商">
+            <option value="ollama" selected>🦙 Ollama</option>
+            <option value="ZhiPuAI">🤖 智谱AI</option>
+        </select>
+    </div>
+
+    <div style="width: 1px; height: 24px; background: #ddd;"></div>
+
+    <div class="setting-group">
         <label class="toggle-switch">
             <input type="checkbox" id="rag-mode-switch" checked>
             <span class="slider"></span>
@@ -121,7 +104,7 @@
         <span class="setting-label" id="mode-label" style="color: #007bff;">🧠 知识库模式</span>
     </div>
 
-    <div style="width: 1px; height: 24px; background: #ddd; margin: 0 10px;"></div>
+    <div style="width: 1px; height: 24px; background: #ddd;"></div>
 
     <div id="kb-control-area">
         <div class="setting-group">
@@ -134,20 +117,20 @@
             <button id="refresh-tag-btn" class="icon-btn" title="刷新列表">🔄</button>
         </div>
 
-        <div style="margin-left: 15px; display: flex; gap: 5px;">
+        <div style="margin-left: 10px; display: flex; gap: 5px;">
             <button id="mode-file-btn" class="icon-btn active-mode" title="文件上传模式">📂</button>
             <button id="mode-git-btn" class="icon-btn" title="Git 仓库导入模式">🔗</button>
         </div>
 
         <div id="drop-zone" title="可以将文件拖拽到这里">
-            <label for="file-input" class="btn-upload-trigger">📂 选择/拖拽文件</label>
+            <label for="file-input" class="btn-upload-trigger">📂 选择文件</label>
             <input type="file" id="file-input" multiple>
             <span id="file-list-display"></span>
             <button id="upload-btn" class="btn-do-upload">上传</button>
         </div>
 
         <div id="git-zone">
-            <input type="text" id="git-url-input" placeholder="输入 Git 仓库 HTTPS 地址" autocomplete="off">
+            <input type="text" id="git-url-input" placeholder="Git HTTPS 地址" autocomplete="off">
             <button id="git-import-btn" class="btn-do-upload">导入仓库</button>
         </div>
     </div>
@@ -156,7 +139,7 @@
 <div id="chat-container">
     <div class="message bot">
         <div class="avatar">AI</div>
-        <div class="content">你好！我是你的 AI 助手。<br>开启左上角开关可使用【知识库模式】，关闭则进入【自由聊天模式】。</div>
+        <div class="content">你好！我是你的 AI 助手。<br>请选择左上角的模型，开启开关可使用【知识库模式】。</div>
     </div>
 </div>
 
@@ -168,10 +151,19 @@
 </div>
 
 <script>
-    // === 配置 ===
-    const RAG_API_BASE = 'http://localhost:8090/api/v1/rag';
-    const OLLAMA_API_BASE = 'http://localhost:8090/api/v1/ollama';
-    const MODEL_NAME = 'qwen2.5:7b';
+    // === 配置: 定义不同服务商的基础地址和默认模型 ===
+    const CONFIG = {
+        ollama: {
+            baseUrl: 'http://localhost:8090/api/v1/ollama',
+            defaultModel: 'qwen2.5:7b'
+        },
+        ZhiPuAI: {
+            baseUrl: 'http://localhost:8090/api/v1/zhipu',
+            defaultModel: 'glm-4' // 智谱的默认模型名
+        },
+        // 用于 RAGController 的 API
+        ragBaseUrl: 'http://localhost:8090/api/v1/rag'
+    };
 
     // === DOM ===
     const chatContainer = document.getElementById('chat-container');
@@ -189,7 +181,8 @@
     const fileListDisplay = document.getElementById('file-list-display');
     const dropZone = document.getElementById('drop-zone');
 
-    // === 新增 DOM ===
+    // 新增 DOM
+    const providerSelect = document.getElementById('provider-select');
     const modeFileBtn = document.getElementById('mode-file-btn');
     const modeGitBtn = document.getElementById('mode-git-btn');
     const gitZone = document.getElementById('git-zone');
@@ -253,7 +246,7 @@
 
     async function loadRagTags() {
         try {
-            const response = await fetch(`${RAG_API_BASE}/list`);
+            const response = await fetch(`${CONFIG.ragBaseUrl}/list`);
             const result = await response.json();
             ragTagSelect.innerHTML = '';
             if (result.code === "0000" && result.data && result.data.length > 0) {
@@ -318,15 +311,17 @@
         if (!ragTag || ragTag === "暂无") return alert("请选择或新建一个知识库名称");
         if (fileInput.files.length === 0) return alert("请选择文件或拖拽文件");
 
+        const provider = providerSelect.value;
         const formData = new FormData();
         formData.append('ragTag', ragTag);
+        formData.append('model', provider);
         for (let i = 0; i < fileInput.files.length; i++) formData.append('files', fileInput.files[i]);
 
         uploadBtn.disabled = true;
         uploadBtn.textContent = '...';
 
         try {
-            const response = await fetch(`${RAG_API_BASE}/upload`, { method: 'POST', body: formData });
+            const response = await fetch(`${CONFIG.ragBaseUrl}/upload`, { method: 'POST', body: formData });
             const result = await response.json();
             if (result.code === "0000") {
                 alert("上传成功");
@@ -342,7 +337,7 @@
         finally { uploadBtn.disabled = false; uploadBtn.textContent = '上传'; }
     });
 
-    // === 5. Git 导入逻辑 (新增) ===
+    // === 5. Git 导入逻辑 ===
     gitImportBtn.addEventListener('click', async () => {
         const ragTag = getCurrentRagTag();
         if (!ragTag || ragTag === "暂无") return alert("请选择或新建一个知识库名称");
@@ -351,20 +346,20 @@
         if (!gitUrl) return alert("请输入 Git 仓库地址");
         if (!gitUrl.startsWith("http")) return alert("请输入有效的 HTTP/HTTPS Git 地址");
 
+        const provider = providerSelect.value;
+
         gitImportBtn.disabled = true;
         gitImportBtn.textContent = '克隆解析中...';
 
         try {
-            // 后端接口是 GET /git?tag=...&url=...
-            const targetUrl = `${RAG_API_BASE}/git?tag=${encodeURIComponent(ragTag)}&url=${encodeURIComponent(gitUrl)}`;
+            const targetUrl = `${CONFIG.ragBaseUrl}/git?tag=${encodeURIComponent(ragTag)}&url=${encodeURIComponent(gitUrl)}&model=${encodeURIComponent(provider)}`;
 
             const response = await fetch(targetUrl, { method: 'GET' });
             const result = await response.json();
 
             if (result.code === "0000") {
-                alert(`Git 仓库导入成功！\n知识库: ${ragTag}`);
+                alert(`Git 仓库导入成功！\n知识库: ${ragTag}\n模型: ${provider}`);
                 gitUrlInput.value = '';
-
                 if (isNewTagMode) {
                     await loadRagTags();
                     ragTagSelect.value = ragTag;
@@ -382,7 +377,7 @@
         }
     });
 
-    // === 6. 核心对话逻辑 ===
+    // === 6. 核心对话逻辑 (含符号过滤) ===
     sendBtn.addEventListener('click', sendMessage);
     userInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
@@ -393,15 +388,18 @@
         if (!text) return;
 
         const isRagOn = ragModeSwitch.checked;
+        const provider = providerSelect.value;
+        const currentConfig = CONFIG[provider];
+
         let requestUrl = '';
 
         if (isRagOn) {
             const ragTag = getCurrentRagTag();
             if (!ragTag || ragTag === "暂无") return alert("请先选择知识库，或者关闭开关进行纯聊");
 
-            requestUrl = `${OLLAMA_API_BASE}/generate_stream_rag?model=${encodeURIComponent(MODEL_NAME)}&ragTag=${encodeURIComponent(ragTag)}&message=${encodeURIComponent(text)}`;
+            requestUrl = `${currentConfig.baseUrl}/generate_stream_rag?model=${encodeURIComponent(currentConfig.defaultModel)}&ragTag=${encodeURIComponent(ragTag)}&message=${encodeURIComponent(text)}`;
         } else {
-            requestUrl = `${OLLAMA_API_BASE}/generate_stream?model=${encodeURIComponent(MODEL_NAME)}&message=${encodeURIComponent(text)}`;
+            requestUrl = `${currentConfig.baseUrl}/generate_stream?model=${encodeURIComponent(currentConfig.defaultModel)}&message=${encodeURIComponent(text)}`;
         }
 
         appendMessage('user', text);
@@ -435,7 +433,11 @@
                     if (line.trim().startsWith('data:')) {
                         try {
                             const data = JSON.parse(line.replace('data:', '').trim());
-                            const content = data?.result?.output?.content || "";
+                            let content = data?.result?.output?.content || "";
+
+                            // 🔥🔥🔥 核心修改：过滤掉智谱 AI 的 Grounding 标记 🔥🔥🔥
+                            content = content.replace(/<\|begin_of_box\|>/g, '').replace(/<\|end_of_box\|>/g, '');
+
                             fullText += content;
                         } catch (e) {}
                     }

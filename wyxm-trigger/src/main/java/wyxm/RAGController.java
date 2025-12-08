@@ -29,8 +29,10 @@ import java.util.UUID;
 @CrossOrigin("*")
 @Slf4j
 public class RAGController implements RAGService {
-    @Resource
-    private PgVectorStore pgVectorStore;
+    @Resource(name = "zaiPgVectorStore")
+    private PgVectorStore zaiPgVectorStore;
+    @Resource(name = "ollamaPgVectorStore")
+    private PgVectorStore ollamaPgVectorStore;
     @Resource
     private RedissonClient redissonClient;
     @Resource
@@ -44,7 +46,13 @@ public class RAGController implements RAGService {
 
     @PostMapping("upload")
     @Override
-    public Response<String> uploadFile(String ragTag, List<MultipartFile> files) {
+    public Response<String> uploadFile(String ragTag, List<MultipartFile> files, String model) {
+        PgVectorStore pgVectorStore;
+        if("ZhiPuAI".equals(model)) {
+            pgVectorStore = zaiPgVectorStore;
+        }else if("ollama".equals(model)) {
+            pgVectorStore = ollamaPgVectorStore;
+        }else throw new IllegalArgumentException();
         for(MultipartFile file : files) {
             TikaDocumentReader reader = new TikaDocumentReader(file.getResource());
             List<Document> documents = reader.get();
@@ -62,7 +70,13 @@ public class RAGController implements RAGService {
 
     @GetMapping("git")
     @Override
-    public Response<String> uploadGitRepository(String tag, String url) {
+    public Response<String> uploadGitRepository(String tag, String url,String model) {
+        PgVectorStore pgVectorStore;
+        if("ZhiPuAI".equals(model)) {
+            pgVectorStore = zaiPgVectorStore;
+        }else if("ollama".equals(model)) {
+            pgVectorStore = ollamaPgVectorStore;
+        }else throw new IllegalArgumentException();
         String toDir = String.format("data/code/%s/", UUID.randomUUID());
         GitUtil.clone(url,toDir );
         int maxDocuments=20;

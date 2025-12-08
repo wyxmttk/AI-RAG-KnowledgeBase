@@ -46,7 +46,7 @@ public class JGitTest {
 
     @Test
     public void testUploadGitRepository(){
-        ragController.uploadGitRepository("Tiny-Spring2","git@github.com:wyxmttk/Tiny-Spring.git");
+        ragController.uploadGitRepository("Tiny-Spring2","git@github.com:wyxmttk/Tiny-Spring.git","");
     }
 
     @Test
