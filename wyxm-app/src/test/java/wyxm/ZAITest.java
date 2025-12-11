@@ -12,18 +12,22 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.model.Media;
 import org.springframework.ai.reader.tika.TikaDocumentReader;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
-import org.springframework.ai.vectorstore.PgVectorStore;
 import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.pgvector.PgVectorStore;
 import org.springframework.ai.zhipuai.ZhiPuAiChatModel;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.MimeType;
+import org.springframework.util.MimeTypeUtils;
+import org.springframework.util.StringUtils;
+import reactor.core.publisher.Flux;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -69,9 +73,12 @@ public class ZAITest {
         {documents}
         [上下文结束]
         """;
-        SearchRequest request=SearchRequest.query(message).withTopK(5).withFilterExpression(filterExpression);
+        SearchRequest request=SearchRequest.builder().query(message).topK(5).filterExpression(filterExpression).build();
         List<Document> list = zaiPgVectorStore.similaritySearch(request);
-        String collect = list.stream().map(Document::getContent).collect(Collectors.joining());
+        if(list==null){
+            list=new ArrayList<>();
+        }
+        String collect = list.stream().map(Document::getText).collect(Collectors.joining());
         Message systemPrompt = new SystemPromptTemplate(SYSTEM_PROMPT).createMessage(Map.of("documents", collect));
         UserMessage userPrompt = new UserMessage(message);
         ArrayList<Message> messages = new ArrayList<>();
@@ -79,5 +86,14 @@ public class ZAITest {
         messages.add(userPrompt);
         ChatResponse response = zhiPuAiChatModel.call(new Prompt(messages));
         System.out.println(response);
+    }
+    @Test
+    public void testImageParser(){
+        ClassPathResource classPathResource = new ClassPathResource("data/img.png");
+        UserMessage userMessage = new UserMessage("这张图片的内容是什么"
+                , new Media(MimeType.valueOf(MimeTypeUtils.IMAGE_PNG_VALUE), classPathResource));
+        Flux<String> stream = zhiPuAiChatModel.stream(userMessage);
+        stream.filter(StringUtils::hasLength).doOnNext(System.out::println).blockLast();
+
     }
 }

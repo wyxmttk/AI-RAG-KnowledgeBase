@@ -1,0 +1,21 @@
+电脑配置信息：
+操作系统名称：Mac OS X
+操作系统版本：14.8.1
+操作系统架构：aarch64
+用户名：mac
+用户主目录：/Users/mac
+用户目录：/Applications/IDEAWorkspace/AI-RAG-KnowledgeBase/wyxm-app
+Java版本：17.0.12
+硬件信息：
+  型号名称：MacBook Pro
+  型号标识符：MacBookPro18,2
+  型号编号：MK1A3CH/A
+  芯片：Apple M1 Max
+  核心总数：10个（8个性能核心和2个效率核心）
+  内存：32 GB
+  系统固件版本：13822.1.2
+  OS加载器版本：10151.140.19.700.2
+  序列号：T1JQ3M45G9
+  硬件UUID：7E9CB687-F59A-566E-8449-011042965FE8
+  预配UDID：00006001-000849AC3445801E
+  激活锁状态：已启用

@@ -3,7 +3,7 @@ package wyxm.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.ollama.OllamaEmbeddingModel;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
-import org.springframework.ai.vectorstore.PgVectorStore;
+import org.springframework.ai.vectorstore.pgvector.PgVectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,10 +21,9 @@ public class OllamaConfig {
             , @Value("${spring.ai.ollama.vector-store-name-prefix}") String prefix
             , OllamaEmbeddingModel ollamaEmbeddingModel
             , JdbcTemplate jdbcTemplate) {
-        return new PgVectorStore
-                .Builder(jdbcTemplate,ollamaEmbeddingModel)
-                .withVectorTableName(prefix+model.replace("-",""))
-                .withInitializeSchema(true)
+        return PgVectorStore.builder(jdbcTemplate,ollamaEmbeddingModel)
+                .vectorTableName(prefix+model.replace("-",""))
+                .initializeSchema(true)
                 .build();
     }
 

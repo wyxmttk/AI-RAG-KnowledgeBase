@@ -8,13 +8,14 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.ollama.OllamaChatModel;
-import org.springframework.ai.vectorstore.PgVectorStore;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.filter.FilterExpressionBuilder;
+import org.springframework.ai.vectorstore.pgvector.PgVectorStore;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -58,11 +59,14 @@ public class OllamaController implements AIService {
     @Override
     public Flux<ChatResponse> streamingGeneratingRAG(String model, String ragTag, String message) {
         FilterExpressionBuilder builder = new FilterExpressionBuilder();
-        SearchRequest request=SearchRequest.query(message).withTopK(5).withFilterExpression(builder.eq("knowledge", ragTag).build());
+        SearchRequest request=SearchRequest.builder().query(message).topK(5).filterExpression(builder.eq("knowledge", ragTag).build()).build();
         List<Document> documents = pgVectorStore.similaritySearch(request);
+        if(documents==null) {
+            documents= Collections.emptyList();
+        }
         List<Message> messages = new ArrayList<>();
         Message systemPrompt = new SystemPromptTemplate(SYSTEM_PROMPT)
-                .createMessage(Map.of("documents",documents.stream().map(Document::getContent).collect(Collectors.joining())));
+                .createMessage(Map.of("documents",documents.stream().map(Document::getText).collect(Collectors.joining())));
         Message userPrompt = new UserMessage(message);
         messages.add(systemPrompt);
         messages.add(userPrompt);

@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem@0.6.2",
+        "/Applications/IDEAWorkspace/AI-RAG-KnowledgeBase/wyxm-app/src/test/resources/data",
+        "/Applications/IDEAWorkspace/AI-RAG-KnowledgeBase/wyxm-trigger/src/test/resources/data"
+      ]
+    },
+    "mcp-server-computer": {
+      "command": "java",
+      "args": [
+        "-Dspring.ai.mcp.server.stdio=true",
+        "-jar",
+        "/Applications/IDEAWorkspace/AI-RAG-KnowledgeBase/docs/dev-ops/MCP-Server-Computer-1.0-SNAPSHOT.jar"
+      ]
+    }
+  }
+}
+

@@ -14,17 +14,14 @@ import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.reader.tika.TikaDocumentReader;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
-import org.springframework.ai.vectorstore.PgVectorStore;
 import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.pgvector.PgVectorStore;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 //测试时启动Spring上下文
@@ -72,9 +69,13 @@ public class RAGTest {
         {documents}
         [上下文结束]
         """;
-        SearchRequest request=SearchRequest.query(message).withTopK(5).withFilterExpression(filterExpression);
+        SearchRequest request=SearchRequest.builder().query(message).topK(5).filterExpression(filterExpression).build();
         List<Document> documents = vectorStore.similaritySearch(request);
-        String documentsContent = documents.stream().map(Document::getContent).collect(Collectors.joining());
+        if(documents==null){
+            documents= Collections.emptyList();
+        }
+        String documentsContent = documents.stream().map(Document::getText).collect(Collectors.joining());
+        log.info(documentsContent);
         Message systemMessage = new SystemPromptTemplate(SYSTEM_PROMPT).createMessage(Map.of("documents", documentsContent));
         UserMessage userMessage = new UserMessage(message);
         ArrayList<Message> messages = new ArrayList<>();
