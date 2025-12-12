@@ -44,4 +44,9 @@ public class MCPTest {
         ChatClient.CallResponseSpec response = chatClientBuilder.defaultTools(toolCallbackProvider).build().prompt("把我当前电脑的配置信息写到app模块的test.txt文件").call();
         log.info(response.content());
     }
+    @Test
+    public void testPublish(){
+        ChatClient.CallResponseSpec response = chatClientBuilder.defaultTools(toolCallbackProvider).build().prompt("修改id为155845393的文章，标题改为测试修改标题，内容改为测试修改内容测试修改内容,标签为java").call();
+        log.info(response.content());
+    }
 }

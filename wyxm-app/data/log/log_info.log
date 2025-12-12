@@ -1004,3 +1004,82 @@ Caused by: java.util.concurrent.TimeoutException: Did not observe any item or te
 这是一台配置相当不错的MacBook Pro，搭载M1 Max芯片和32GB内存，性能非常强劲！
 25-12-12.00:19:37.278 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown initiated...
 25-12-12.00:19:37.279 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown completed.
+25-12-12.23:09:54.359 [main            ] INFO  MCPTest                - Starting MCPTest using Java 17.0.12 with PID 95820 (started by mac in /Applications/IDEAWorkspace/AI-RAG-KnowledgeBase/wyxm-app)
+25-12-12.23:09:54.360 [main            ] INFO  MCPTest                - The following 1 profile is active: "dev"
+25-12-12.23:09:54.849 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-12-12.23:09:54.850 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-12-12.23:09:54.870 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+25-12-12.23:09:56.723 [pool-4-thread-1 ] INFO  McpAsyncClient         - Server response with Protocol: 2024-11-05, Capabilities: ServerCapabilities[experimental=null, logging=LoggingCapabilities[], prompts=null, resources=null, tools=ToolCapabilities[listChanged=true]], Info: Implementation[name=mcp-server-computer, version=1.0-SNAPSHOT] and Instructions null
+25-12-12.23:09:58.420 [pool-10-thread-1] INFO  StdioClientTransport   - STDERR Message received: Secure MCP Filesystem Server running on stdio
+25-12-12.23:09:58.421 [pool-10-thread-1] INFO  StdioClientTransport   - STDERR Message received: Allowed directories: [
+25-12-12.23:09:58.421 [pool-10-thread-1] INFO  StdioClientTransport   - STDERR Message received:   '/applications/ideaworkspace/ai-rag-knowledgebase/wyxm-app/src/test/resources/data',
+25-12-12.23:09:58.421 [pool-10-thread-1] INFO  StdioClientTransport   - STDERR Message received:   '/applications/ideaworkspace/ai-rag-knowledgebase/wyxm-trigger/src/test/resources/data'
+25-12-12.23:09:58.421 [pool-10-thread-1] INFO  StdioClientTransport   - STDERR Message received: ]
+25-12-12.23:09:58.427 [pool-8-thread-1 ] INFO  McpAsyncClient         - Server response with Protocol: 2024-11-05, Capabilities: ServerCapabilities[experimental=null, logging=null, prompts=null, resources=null, tools=ToolCapabilities[listChanged=null]], Info: Implementation[name=secure-filesystem-server, version=0.2.0] and Instructions null
+25-12-12.23:09:58.618 [main            ] INFO  PgVectorStore          - Using the vector table name: vector_store_ollamanomicembedtext. Is empty: false
+25-12-12.23:09:58.620 [main            ] INFO  PgVectorStore          - Initializing PGVectorStore schema for table: vector_store_ollamanomicembedtext in schema: public
+25-12-12.23:09:58.620 [main            ] INFO  PgVectorStore          - vectorTableValidationsEnabled false
+25-12-12.23:09:58.623 [main            ] INFO  HikariDataSource       - HikariCP - Starting...
+25-12-12.23:09:58.728 [main            ] INFO  HikariPool             - HikariCP - Added connection org.postgresql.jdbc.PgConnection@35552cc0
+25-12-12.23:09:58.729 [main            ] INFO  HikariDataSource       - HikariCP - Start completed.
+25-12-12.23:09:59.774 [main            ] INFO  PgVectorStore          - Using the vector table name: vector_store_zhipuembedding2. Is empty: false
+25-12-12.23:09:59.774 [main            ] INFO  PgVectorStore          - Initializing PGVectorStore schema for table: vector_store_zhipuembedding2 in schema: public
+25-12-12.23:09:59.774 [main            ] INFO  PgVectorStore          - vectorTableValidationsEnabled false
+25-12-12.23:10:00.392 [main            ] INFO  Version                - Redisson 3.44.0
+25-12-12.23:10:00.410 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-12-12.23:10:00.502 [redisson-netty-1-5] INFO  ConnectionsHolder      - 1 connections initialized for localhost/127.0.0.1:6379
+25-12-12.23:10:00.512 [redisson-netty-1-14] INFO  ConnectionsHolder      - 5 connections initialized for localhost/127.0.0.1:6379
+25-12-12.23:10:00.882 [main            ] INFO  MpcServerAutoConfiguration - Registered tools20 notification: true
+25-12-12.23:10:01.027 [main            ] INFO  MCPTest                - Started MCPTest in 6.922 seconds (process running for 7.432)
+25-12-12.23:10:32.266 [main            ] INFO  MCPTest                - 
+根据我目前访问的目录，我没有找到包含文章数据的文件。在允许访问的目录中：
+
+1. `/applications/ideaworkspace/ai-rag-knowledgebase/wyxm-app/src/test/resources/data` 目录下只有 `file.txt`（包含"ljk指的是罗景康"）和 `test.txt`（包含电脑配置信息）
+2. `/applications/ideaworkspace/ai-rag-knowledgebase/wyxm-trigger/src/test/resources/data` 目录为空
+
+要修改id为155845393的文章，我需要找到存储文章数据的文件或数据库。请问：
+
+1. 文章数据存储在哪个具体文件或目录中？
+2. 或者您能提供文章数据的存储路径吗？
+
+这样我就可以帮您修改指定ID的文章标题、内容和标签了。
+25-12-12.23:10:32.289 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown initiated...
+25-12-12.23:10:32.291 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown completed.
+25-12-12.23:12:02.438 [main            ] INFO  MCPTest                - Starting MCPTest using Java 17.0.12 with PID 95905 (started by mac in /Applications/IDEAWorkspace/AI-RAG-KnowledgeBase/wyxm-app)
+25-12-12.23:12:02.439 [main            ] INFO  MCPTest                - The following 1 profile is active: "dev"
+25-12-12.23:12:02.882 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-12-12.23:12:02.883 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-12-12.23:12:02.901 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+25-12-12.23:12:04.693 [pool-4-thread-1 ] INFO  McpAsyncClient         - Server response with Protocol: 2024-11-05, Capabilities: ServerCapabilities[experimental=null, logging=LoggingCapabilities[], prompts=null, resources=null, tools=ToolCapabilities[listChanged=true]], Info: Implementation[name=mcp-server-computer, version=1.0-SNAPSHOT] and Instructions null
+25-12-12.23:12:06.582 [pool-10-thread-1] INFO  StdioClientTransport   - STDERR Message received: Secure MCP Filesystem Server running on stdio
+25-12-12.23:12:06.583 [pool-10-thread-1] INFO  StdioClientTransport   - STDERR Message received: Allowed directories: [
+25-12-12.23:12:06.583 [pool-10-thread-1] INFO  StdioClientTransport   - STDERR Message received:   '/applications/ideaworkspace/ai-rag-knowledgebase/wyxm-app/src/test/resources/data',
+25-12-12.23:12:06.583 [pool-10-thread-1] INFO  StdioClientTransport   - STDERR Message received:   '/applications/ideaworkspace/ai-rag-knowledgebase/wyxm-trigger/src/test/resources/data'
+25-12-12.23:12:06.583 [pool-10-thread-1] INFO  StdioClientTransport   - STDERR Message received: ]
+25-12-12.23:12:06.589 [pool-8-thread-1 ] INFO  McpAsyncClient         - Server response with Protocol: 2024-11-05, Capabilities: ServerCapabilities[experimental=null, logging=null, prompts=null, resources=null, tools=ToolCapabilities[listChanged=null]], Info: Implementation[name=secure-filesystem-server, version=0.2.0] and Instructions null
+25-12-12.23:12:08.003 [pool-11-thread-1] INFO  McpAsyncClient         - Server response with Protocol: 2024-11-05, Capabilities: ServerCapabilities[experimental=null, logging=LoggingCapabilities[], prompts=null, resources=null, tools=ToolCapabilities[listChanged=true]], Info: Implementation[name=mcp-server-csdn, version=1.0-SNAPSHOT] and Instructions null
+25-12-12.23:12:08.189 [main            ] INFO  PgVectorStore          - Using the vector table name: vector_store_ollamanomicembedtext. Is empty: false
+25-12-12.23:12:08.191 [main            ] INFO  PgVectorStore          - Initializing PGVectorStore schema for table: vector_store_ollamanomicembedtext in schema: public
+25-12-12.23:12:08.191 [main            ] INFO  PgVectorStore          - vectorTableValidationsEnabled false
+25-12-12.23:12:08.194 [main            ] INFO  HikariDataSource       - HikariCP - Starting...
+25-12-12.23:12:08.289 [main            ] INFO  HikariPool             - HikariCP - Added connection org.postgresql.jdbc.PgConnection@3dd82d77
+25-12-12.23:12:08.289 [main            ] INFO  HikariDataSource       - HikariCP - Start completed.
+25-12-12.23:12:08.639 [main            ] INFO  PgVectorStore          - Using the vector table name: vector_store_zhipuembedding2. Is empty: false
+25-12-12.23:12:08.639 [main            ] INFO  PgVectorStore          - Initializing PGVectorStore schema for table: vector_store_zhipuembedding2 in schema: public
+25-12-12.23:12:08.639 [main            ] INFO  PgVectorStore          - vectorTableValidationsEnabled false
+25-12-12.23:12:09.229 [main            ] INFO  Version                - Redisson 3.44.0
+25-12-12.23:12:09.247 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-12-12.23:12:09.332 [redisson-netty-1-5] INFO  ConnectionsHolder      - 1 connections initialized for localhost/127.0.0.1:6379
+25-12-12.23:12:09.341 [redisson-netty-1-14] INFO  ConnectionsHolder      - 5 connections initialized for localhost/127.0.0.1:6379
+25-12-12.23:12:09.682 [main            ] INFO  MpcServerAutoConfiguration - Registered tools22 notification: true
+25-12-12.23:12:09.837 [main            ] INFO  MCPTest                - Started MCPTest in 7.653 seconds (process running for 8.194)
+25-12-12.23:12:18.158 [main            ] INFO  MCPTest                - 
+文章修改成功！我已经将ID为155845393的文章更新为：
+
+- 标题：测试修改标题
+- 内容：测试修改内容测试修改内容
+- 标签：java
+
+文章已成功发布，您可以通过以下链接查看：https://blog.csdn.net/2402_88653002/article/details/155845393
+25-12-12.23:12:18.190 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown initiated...
+25-12-12.23:12:18.191 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariCP - Shutdown completed.
